@@ -1,4 +1,4 @@
--- Active: 1782929010687@@mysql-20e679b3-sama78wfgg.b.aivencloud.com@15321@SISTEMA_ITERNO_VIAGENS
+-- Active: 1783533724186@@mysql-20e679b3-sama78wfgg.b.aivencloud.com@15321@Sistema_interno_Viagens
 create TABLE departamentos(
     id_departamento int PRIMARY key AUTO_INCREMENT,
     nome_departamento varchar(20),
