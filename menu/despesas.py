@@ -1,48 +1,30 @@
-import mysql.connector
+from database import conectar
 
-# ==========================
-# CONEXÃO COM O BANCO
-# ==========================
-def conectar():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="SUA_SENHA",
-        database="SEU_BANCO"
-    )
 
-# ==========================
-# CRIAR DESPESA
-# ==========================
-def criar_despesa(descricao, valor, data_despesa):
+def criar_despesa(valor, data_hora, categoria, forma_pagamento, id_viagem):
     conexao = conectar()
     cursor = conexao.cursor()
 
     sql = """
-    INSERT INTO despesas (descricao, valor, data_despesa)
-    VALUES (%s, %s, %s)
+    INSERT INTO Despesas (valor, data_hora, categoria, forma_pagamento, id_viagem)
+    VALUES (%s, %s, %s, %s, %s)
     """
-
-    valores = (descricao, valor, data_despesa)
+    valores = (valor, data_hora, categoria, forma_pagamento, id_viagem)
 
     cursor.execute(sql, valores)
     conexao.commit()
 
-    print("Despesa cadastrada com sucesso!")
+    print("✅ Despesa cadastrada com sucesso!")
 
     cursor.close()
     conexao.close()
 
 
-# ==========================
-# LISTAR DESPESAS
-# ==========================
 def listar_despesas():
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = "SELECT * FROM despesas"
-
+    sql = "SELECT * FROM Despesas"
     cursor.execute(sql)
     resultado = cursor.fetchall()
 
@@ -53,45 +35,35 @@ def listar_despesas():
     conexao.close()
 
 
-# ==========================
-# ATUALIZAR DESPESA
-# ==========================
-def atualizar_despesa(id_despesa, descricao, valor, data_despesa):
+def atualizar_despesa(id_despesas, valor, categoria, forma_pagamento):
     conexao = conectar()
     cursor = conexao.cursor()
 
     sql = """
-    UPDATE despesas
-    SET descricao = %s,
-        valor = %s,
-        data_despesa = %s
-    WHERE id_despesa = %s
+    UPDATE Despesas
+    SET valor = %s, categoria = %s, forma_pagamento = %s
+    WHERE id_despesas = %s
     """
-
-    valores = (descricao, valor, data_despesa, id_despesa)
+    valores = (valor, categoria, forma_pagamento, id_despesas)
 
     cursor.execute(sql, valores)
     conexao.commit()
 
-    print("Despesa atualizada com sucesso!")
+    print(f"✅ Despesa com ID {id_despesas} atualizada com sucesso!")
 
     cursor.close()
     conexao.close()
 
 
-# ==========================
-# DELETAR DESPESA
-# ==========================
-def deletar_despesa(id_despesa):
+def deletar_despesa(id_despesas):
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = "DELETE FROM despesas WHERE id_despesa = %s"
-
-    cursor.execute(sql, (id_despesa,))
+    sql = "DELETE FROM Despesas WHERE id_despesas = %s"
+    cursor.execute(sql, (id_despesas,))
     conexao.commit()
 
-    print("Despesa excluída com sucesso!")
+    print(f"✅ Despesa com ID {id_despesas} deletada com sucesso!")
 
     cursor.close()
     conexao.close()

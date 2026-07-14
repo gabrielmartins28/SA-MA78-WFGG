@@ -12,8 +12,6 @@ def conectar():
         database = os.getenv('DB_NAME'),
         port = int(os.getenv('DB_PORT')) # Convertido para número inteiro
     )
-    
-    print("✅ Conexão feita com sucesso!")
     return conexao
 
 

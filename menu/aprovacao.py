@@ -1,61 +1,69 @@
-from estrutura_inicial_python.database import conectar
+from database import conectar
+
+
+def inserir_aprovacao(id_viagem, id_colaborador, data_hora_avaliacao, status_decisao, observacoes_justificativa=None):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    sql = """
+    INSERT INTO Aprovacao (id_viagem, id_colaborador, data_hora_avaliacao, status_decisao, observacoes_justificativa)
+    VALUES (%s, %s, %s, %s, %s)
+    """
+    valores = (id_viagem, id_colaborador, data_hora_avaliacao, status_decisao, observacoes_justificativa)
+
+    cursor.execute(sql, valores)
+    conexao.commit()
+
+    print(f"✅ Aprovação com status {status_decisao} inserida com sucesso!")
+
+    cursor.close()
+    conexao.close()
+
 
 def listar_aprovacao():
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = """SELECT * FROM Aprovacao"""
-
+    sql = "SELECT * FROM Aprovacao"
     cursor.execute(sql)
     resultado = cursor.fetchall()
 
     for aprovacao in resultado:
         print(aprovacao)
 
-    conexao.close()
     cursor.close()
+    conexao.close()
 
-def atualizar_aprovacao(id_aprovacao, status, comentario):
+
+def atualizar_aprovacao(id_aprovacao, status_decisao, observacoes_justificativa):
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = """UPDATE Aprovacao SET status = %s, comentario = %s WHERE id = %s"""
-    valores = (status, comentario, id_aprovacao)
+    sql = """
+    UPDATE Aprovacao
+    SET status_decisao = %s, observacoes_justificativa = %s
+    WHERE id_aprovacao = %s
+    """
+    valores = (status_decisao, observacoes_justificativa, id_aprovacao)
 
     cursor.execute(sql, valores)
     conexao.commit()
 
-    print(f"✅ Aprovacao com ID {id_aprovacao} atualizada com sucesso!")
+    print(f"✅ Aprovação com ID {id_aprovacao} atualizada com sucesso!")
 
-    conexao.close()
     cursor.close()
+    conexao.close()
+
 
 def deletar_aprovacao(id_aprovacao):
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = """DELETE FROM Aprovacao WHERE id = %s"""
-    valores = (id_aprovacao,)
-
-    cursor.execute(sql, valores)
+    sql = "DELETE FROM Aprovacao WHERE id_aprovacao = %s"
+    cursor.execute(sql, (id_aprovacao,))
     conexao.commit()
 
-    print(f"✅ Aprovacao com ID {id_aprovacao} deletada com sucesso!")
+    print(f"✅ Aprovação com ID {id_aprovacao} deletada com sucesso!")
 
-    conexao.close()
     cursor.close()
-
-def inserir_aprovacao(status, comentario):
-    conexao = conectar()
-    cursor = conexao.cursor()
-
-    sql = """INSERT INTO Aprovacao (status, comentario) VALUES (%s, %s)"""
-    valores = (status, comentario)
-
-    cursor.execute(sql, valores)
-    conexao.commit()
-
-    print(f"✅ Aprovacao com status {status} inserida com sucesso!")
-
     conexao.close()
-    cursor.close()

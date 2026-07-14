@@ -1,61 +1,69 @@
-from estrutura_inicial_python.database import conectar
+from database import conectar
+
+
+def inserir_colaborador(nome_colaborador, email_colaborador, telefone_colaborador, cargo_funcionario, status_funcionario, possui_cnh, id_departamento, id_gestor=None):
+    conexao = conectar()
+    cursor = conexao.cursor()
+
+    sql = """
+    INSERT INTO colaborador (nome_colaborador, email_colaborador, telefone_colaborador, cargo_funcionario, status_funcionario, possui_cnh, id_departamento, id_gestor)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    """
+    valores = (nome_colaborador, email_colaborador, telefone_colaborador, cargo_funcionario, status_funcionario, possui_cnh, id_departamento, id_gestor)
+
+    cursor.execute(sql, valores)
+    conexao.commit()
+
+    print(f"✅ Colaborador {nome_colaborador} inserido com sucesso!")
+
+    cursor.close()
+    conexao.close()
+
 
 def listar_colaborador():
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = """SELECT * FROM Colaborador"""
-
+    sql = "SELECT * FROM colaborador"
     cursor.execute(sql)
     resultado = cursor.fetchall()
 
     for colaborador in resultado:
         print(colaborador)
 
-    conexao.close()
     cursor.close()
+    conexao.close()
 
-def atualizar_colaborador(id_colaborador, nome, cargo, email):
+
+def atualizar_colaborador(id_colaborador, nome_colaborador, cargo_funcionario, email_colaborador):
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = """UPDATE Colaborador SET nome = %s, cargo = %s, email = %s WHERE id = %s"""
-    valores = (nome, cargo, email, id_colaborador)
+    sql = """
+    UPDATE colaborador
+    SET nome_colaborador = %s, cargo_funcionario = %s, email_colaborador = %s
+    WHERE id_colaborador = %s
+    """
+    valores = (nome_colaborador, cargo_funcionario, email_colaborador, id_colaborador)
 
     cursor.execute(sql, valores)
     conexao.commit()
 
     print(f"✅ Colaborador com ID {id_colaborador} atualizado com sucesso!")
 
-    conexao.close()
     cursor.close()
+    conexao.close()
+
 
 def deletar_colaborador(id_colaborador):
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = """DELETE FROM Colaborador WHERE id = %s"""
-    valores = (id_colaborador,)
-
-    cursor.execute(sql, valores)
+    sql = "DELETE FROM colaborador WHERE id_colaborador = %s"
+    cursor.execute(sql, (id_colaborador,))
     conexao.commit()
 
     print(f"✅ Colaborador com ID {id_colaborador} deletado com sucesso!")
 
-    conexao.close()
     cursor.close()
-
-def inserir_colaborador(nome, cargo, email):
-    conexao = conectar()
-    cursor = conexao.cursor()
-
-    sql = """INSERT INTO Colaborador (nome, cargo, email) VALUES (%s, %s, %s)"""
-    valores = (nome, cargo, email)
-
-    cursor.execute(sql, valores)
-    conexao.commit()
-
-    print(f"✅ Colaborador {nome} inserido com sucesso!")
-
     conexao.close()
-    cursor.close()

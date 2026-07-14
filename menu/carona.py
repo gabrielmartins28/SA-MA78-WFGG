@@ -1,45 +1,28 @@
 from database import conectar
 
 
-# CRIAR
-def criar_carona(nome_motorista, destino, valor, data_carona):
-
+def criar_carona(id_viagem, id_colaborador):
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = """
-    INSERT INTO carona
-    (nome_motorista, destino, valor, data_carona)
-    VALUES (%s, %s, %s, %s)
-    """
-
-    valores = (
-        nome_motorista,
-        destino,
-        valor,
-        data_carona
-    )
+    sql = "INSERT INTO Carona (id_viagem, id_colaborador) VALUES (%s, %s)"
+    valores = (id_viagem, id_colaborador)
 
     cursor.execute(sql, valores)
     conexao.commit()
 
-    print("Carona cadastrada com sucesso!")
+    print("✅ Carona cadastrada com sucesso!")
 
     cursor.close()
     conexao.close()
 
 
-
-# LISTAR
 def listar_carona():
-
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = "SELECT * FROM carona"
-
+    sql = "SELECT * FROM Carona"
     cursor.execute(sql)
-
     resultado = cursor.fetchall()
 
     for carona in resultado:
@@ -49,58 +32,31 @@ def listar_carona():
     conexao.close()
 
 
-
-# ATUALIZAR
-def atualizar_carona(id_carona, nome_motorista, destino, valor, data_carona):
-
+def atualizar_carona(id_carona, id_viagem, id_colaborador):
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = """
-    UPDATE carona
-    SET 
-        nome_motorista = %s,
-        destino = %s,
-        valor = %s,
-        data_carona = %s
-    WHERE id_carona = %s
-    """
-
-    valores = (
-        nome_motorista,
-        destino,
-        valor,
-        data_carona,
-        id_carona
-    )
+    sql = "UPDATE Carona SET id_viagem = %s, id_colaborador = %s WHERE id_carona = %s"
+    valores = (id_viagem, id_colaborador, id_carona)
 
     cursor.execute(sql, valores)
-
     conexao.commit()
 
-    print("Carona atualizada com sucesso!")
+    print(f"✅ Carona com ID {id_carona} atualizada com sucesso!")
 
     cursor.close()
     conexao.close()
 
 
-
-# DELETAR
 def deletar_carona(id_carona):
-
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = """
-    DELETE FROM carona
-    WHERE id_carona = %s
-    """
-
+    sql = "DELETE FROM Carona WHERE id_carona = %s"
     cursor.execute(sql, (id_carona,))
-
     conexao.commit()
 
-    print("Carona excluída com sucesso!")
+    print(f"✅ Carona com ID {id_carona} deletada com sucesso!")
 
     cursor.close()
     conexao.close()
