@@ -66,6 +66,10 @@ from frota_veiculo import (
     atualizar_status_veiculo,
     deletar_veiculo,
 )
+from consultas import (
+    CATEGORIAS,
+    consulta_subordinados_por_gestor,
+)
 
 
 # ==============================================================================
@@ -527,22 +531,77 @@ def menu_analise_eficacia():
 
 
 # ==============================================================================
+# MÓDULO DE CONSULTAS FREQUENTES (RELATÓRIOS)
+# ==============================================================================
+# As consultas ficam agrupadas nas mesmas 6 categorias de banco/consultas.sql.
+# A lista de categorias e consultas vem de consultas.CATEGORIAS, então basta
+# adicionar uma nova função + entrada lá para que ela apareça aqui também.
+
+def menu_consultas_categoria(categoria):
+    titulo_categoria, emoji_categoria, consultas = categoria
+
+    while True:
+        exibir_cabecalho(titulo_categoria, emoji_categoria)
+        for i, (rotulo, _funcao) in enumerate(consultas, start=1):
+            print(f"{i}. {rotulo}")
+        print("0. ↩️  Voltar para as categorias")
+        opcao = input("\nEscolha uma consulta: ").strip()
+
+        if opcao == "0":
+            break
+
+        if opcao.isdigit() and 1 <= int(opcao) <= len(consultas):
+            _rotulo, funcao = consultas[int(opcao) - 1]
+
+            # A consulta de subordinados por gestor precisa de um ID informado
+            # pelo usuário; as demais são executadas sem parâmetros.
+            if funcao is consulta_subordinados_por_gestor:
+                id_gestor = ler_inteiro("ID do gestor")
+                funcao(id_gestor)
+            else:
+                funcao()
+        else:
+            print("\n⚠️  Opção inválida. Tente novamente.")
+            continue
+
+        pausar()
+
+
+def menu_consultas_frequentes():
+    while True:
+        exibir_cabecalho("Consultas Frequentes", "📈")
+        for i, (titulo_categoria, emoji_categoria, _consultas) in enumerate(CATEGORIAS, start=1):
+            print(f"{i}. {emoji_categoria} {titulo_categoria}")
+        print("0. ↩️  Voltar ao menu principal")
+        opcao = input("\nEscolha uma categoria: ").strip()
+
+        if opcao == "0":
+            break
+
+        if opcao.isdigit() and 1 <= int(opcao) <= len(CATEGORIAS):
+            menu_consultas_categoria(CATEGORIAS[int(opcao) - 1])
+        else:
+            print("\n⚠️  Opção inválida. Tente novamente.")
+
+
+# ==============================================================================
 # MENU PRINCIPAL
 # ==============================================================================
 
 while True:
 
     exibir_cabecalho("Sistema Interno de Viagens — WEG", "🚀")
-    print("1. 🧳 Módulo de Viagens")
-    print("2. 👤 Módulo de Colaboradores")
-    print("3. 🏢 Módulo de Departamentos")
-    print("4. 🚗 Módulo de Frota de Veículos")
-    print("5. ✅ Módulo de Aprovações")
-    print("6. 🤝 Módulo de Caronas")
-    print("7. 💰 Módulo de Despesas")
-    print("8. 🎯 Módulo de Objetivos de Viagem")
-    print("9. 📊 Módulo de Análise de Eficácia")
-    print("0. 🚪 Sair do sistema")
+    print(" 1. 🧳 Módulo de Viagens")
+    print(" 2. 👤 Módulo de Colaboradores")
+    print(" 3. 🏢 Módulo de Departamentos")
+    print(" 4. 🚗 Módulo de Frota de Veículos")
+    print(" 5. ✅ Módulo de Aprovações")
+    print(" 6. 🤝 Módulo de Caronas")
+    print(" 7. 💰 Módulo de Despesas")
+    print(" 8. 🎯 Módulo de Objetivos de Viagem")
+    print(" 9. 📊 Módulo de Análise de Eficácia")
+    print("10  📈 Consultas Frequentes")
+    print(" 0. 🚪 Sair do sistema")
 
     opcao = input("\nEscolha uma opção: ").strip()
 
@@ -581,6 +640,10 @@ while True:
     # Análise de eficácia
     elif opcao == "9":
         menu_analise_eficacia()
+
+    # Consultas frequentes
+    elif opcao == "10":
+        menu_consultas_frequentes()
 
     # Sair
     elif opcao == "0":
