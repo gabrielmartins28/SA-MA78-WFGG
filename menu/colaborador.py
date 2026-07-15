@@ -24,12 +24,23 @@ def listar_colaborador():
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = "SELECT * FROM colaborador"
+    sql = """
+    SELECT id_colaborador, nome_colaborador, cargo_funcionario, email_colaborador, status_funcionario, possui_cnh, id_departamento
+    FROM colaborador
+    """
     cursor.execute(sql)
-    resultado = cursor.fetchall()
+    dados = cursor.fetchall()
 
-    for colaborador in resultado:
-        print(colaborador)
+    print(f"\n{'ID':<5} | {'NOME':<25} | {'CARGO':<20} | {'E-MAIL':<28} | {'STATUS':<10} | {'CNH':<4} | {'DEPTO':<6}")
+    print("-" * 105)
+    for colaborador in dados:
+        id_colaborador, nome, cargo, email, status, possui_cnh, id_departamento = colaborador
+        nome_resumido = (nome[:22] + '...') if nome and len(nome) > 22 else (nome or '')
+        cargo_resumido = (cargo[:17] + '...') if cargo and len(cargo) > 17 else (cargo or '')
+        cnh_str = 'Sim' if possui_cnh else 'Não'
+        print(f"{id_colaborador:<5} | {nome_resumido:<25} | {cargo_resumido:<20} | {email:<28} | {status:<10} | {cnh_str:<4} | {id_departamento:<6}")
+
+    print(f"\nTotal de colaboradores: {len(dados)}")
 
     cursor.close()
     conexao.close()

@@ -24,12 +24,24 @@ def listar_viagem():
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = "SELECT * FROM Viagem"
+    sql = """
+    SELECT id_viagem, destino_viagem, dia_saida, dia_retorno, status_viagem, id_colaborador, id_objetivo, id_veiculo
+    FROM Viagem
+    """
     cursor.execute(sql)
-    resultado = cursor.fetchall()
+    dados = cursor.fetchall()
 
-    for viagem in resultado:
-        print(viagem)
+    print(f"\n{'ID':<5} | {'DESTINO':<25} | {'SAÍDA':<12} | {'RETORNO':<12} | {'STATUS':<15} | {'COLAB.':<7} | {'OBJET.':<7} | {'VEÍC.':<6}")
+    print("-" * 100)
+    for viagem in dados:
+        id_viagem, destino, saida, retorno, status, id_colaborador, id_objetivo, id_veiculo = viagem
+        saida_str = saida.strftime('%d/%m/%Y') if saida and hasattr(saida, 'strftime') else str(saida or '')
+        retorno_str = retorno.strftime('%d/%m/%Y') if retorno and hasattr(retorno, 'strftime') else str(retorno or '')
+        destino_resumido = (destino[:22] + '...') if destino and len(destino) > 22 else (destino or '')
+        veiculo_str = str(id_veiculo) if id_veiculo is not None else '-'
+        print(f"{id_viagem:<5} | {destino_resumido:<25} | {saida_str:<12} | {retorno_str:<12} | {status:<15} | {id_colaborador:<7} | {id_objetivo:<7} | {veiculo_str:<6}")
+
+    print(f"\nTotal de viagens: {len(dados)}")
 
     cursor.close()
     conexao.close()

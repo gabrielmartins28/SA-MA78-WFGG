@@ -21,12 +21,17 @@ def listar_carona():
     conexao = conectar()
     cursor = conexao.cursor()
 
-    sql = "SELECT * FROM Carona"
+    sql = "SELECT id_carona, id_viagem, id_colaborador FROM Carona"
     cursor.execute(sql)
-    resultado = cursor.fetchall()
+    dados = cursor.fetchall()
 
-    for carona in resultado:
-        print(carona)
+    print(f"\n{'ID':<5} | {'VIAGEM':<8} | {'COLABORADOR':<12}")
+    print("-" * 32)
+    for carona in dados:
+        id_carona, id_viagem, id_colaborador = carona
+        print(f"{id_carona:<5} | {id_viagem:<8} | {id_colaborador:<12}")
+
+    print(f"\nTotal de caronas: {len(dados)}")
 
     cursor.close()
     conexao.close()

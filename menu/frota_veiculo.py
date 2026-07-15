@@ -1,26 +1,27 @@
 # Módulo responsável por funcionalidades referentes à frota de veículos
 from database import conectar
 
+
 def listar_veiculos():
     conexao = conectar()
     cursor = conexao.cursor()
-    
+
     sql = """
-    SELECT 
-        id_veiculo,
-        marca,
-        modelo,
-        placa,
-        capacidade_passageiros,
-        km_atual,
-        status_veiculo
+    SELECT
+        id_veiculo, marca, modelo, placa, capacidade_passageiros, km_atual, status_veiculo
     FROM Frota_Veiculo
     """
     cursor.execute(sql)
     dados = cursor.fetchall()
 
+    print(f"\n{'ID':<5} | {'MARCA':<12} | {'MODELO':<15} | {'PLACA':<10} | {'CAPAC.':<7} | {'KM ATUAL':<10} | {'STATUS':<12}")
+    print("-" * 85)
     for veiculo in dados:
-        print(veiculo)
+        id_veiculo, marca, modelo, placa, capacidade, km_atual, status = veiculo
+        km_str = f"{km_atual:,}".replace(",", ".")
+        print(f"{id_veiculo:<5} | {marca:<12} | {modelo:<15} | {placa:<10} | {capacidade:<7} | {km_str:<10} | {status:<12}")
+
+    print(f"\nTotal de veículos: {len(dados)}")
 
     cursor.close()
     conexao.close()
@@ -29,11 +30,11 @@ def listar_veiculos():
 def cadastrar_veiculo(placa, modelo, marca, capacidade, km_atual=0):
     conexao = conectar()
     cursor = conexao.cursor()
-    
+
     sql = """
-    INSERT INTO Frota_Veiculo 
+    INSERT INTO Frota_Veiculo
         (placa, modelo, marca, capacidade_passageiros, km_atual, status_veiculo)
-    VALUES 
+    VALUES
         (%s, %s, %s, %s, %s, 'Disponivel')
     """
     valores = (placa, modelo, marca, capacidade, km_atual)
