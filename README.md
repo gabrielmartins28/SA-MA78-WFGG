@@ -6,7 +6,7 @@ Desenvolvido em **Python puro**, com persistência em **MySQL** (hospedado na Ai
 
 ## 📋 Funcionalidades
 
-O sistema é dividido em 9 módulos, acessados por um menu principal:
+O sistema é dividido em 10 módulos, acessados por um menu principal:
 
 | Módulo | O que faz |
 |---|---|
@@ -19,8 +19,24 @@ O sistema é dividido em 9 módulos, acessados por um menu principal:
 | 💰 **Despesas** | Lançamento de despesas associadas a cada viagem |
 | 🎯 **Objetivos de Viagem** | Cadastro dos motivos/objetivos possíveis de uma viagem |
 | 📊 **Análise de Eficácia** | Avaliação pós-viagem (indicador de sucesso, observações) |
+| 📈 **Consultas Frequentes** | Relatórios prontos (financeiro, frota, RH, compliance, BI) |
 
 Todas as listagens são exibidas em formato de tabela (colunas alinhadas, datas formatadas, valores em R$), não como dados crus do banco.
+
+### 📈 Consultas Frequentes
+
+Um menu de relatórios prontos, baseado nas 31 consultas de `banco/consultas.sql`, organizado em 6 categorias:
+
+| Categoria | Exemplos de consulta |
+|---|---|
+| 💰 **Gestão Financeira e Custos** | Gasto por categoria, viagens mais caras, orçamento vs. gasto, ticket médio |
+| 🚗 **Logística e Frota** | Ranking de veículos, viagens sem veículo da frota, capacidade ociosa |
+| 👤 **Colaboradores, Hierarquia e Caronas** | Viagens por colaborador, gestores e subordinados, headcount |
+| 🎯 **Eficácia, Objetivos e Status** | Viagens pendentes/rejeitadas, destinos mais frequentes, nota média de sucesso |
+| 📤 **Exportação e Integração (BI)** | Tabela plana com viagem, colaborador, despesas e nota de eficácia |
+| 🔍 **Auditoria Avançada e Compliance** | Evolução mensal de gastos, SLA de aprovação, despesas fora do período da viagem |
+
+As colunas de cada relatório são descobertas dinamicamente a partir da consulta SQL, então qualquer nova consulta adicionada em `consultas.py` já aparece formatada automaticamente, sem precisar mapear campo a campo.
 
 ## 🛠️ Tecnologias
 
@@ -44,7 +60,9 @@ Todas as listagens são exibidas em formato de tabela (colunas alinhadas, datas 
 ├── objetivo_viagem.py          # CRUD de objetivos de viagem
 ├── frota_veiculo.py            # CRUD da frota de veículos
 ├── analise_eficacia.py         # CRUD de análise de eficácia
+├── consultas.py                # Relatórios/consultas frequentes (banco/consultas.sql)
 ├── database.sql / tables.sql   # Script de criação das tabelas
+├── consultas.sql               # As 31 consultas usadas pelo módulo de relatórios
 ├── requirements.txt           # Dependências do projeto
 └── .env                       # Credenciais do banco (não versionado)
 ```
@@ -107,7 +125,8 @@ Navegue pelo menu principal digitando o número da opção desejada.
 - [ ] Adicionar busca por ID em todos os módulos
 - [ ] Validações de entrada mais robustas (datas, e-mails, valores)
 - [ ] Testes automatizados
-- [ ] Exportação de relatórios (CSV/PDF)
+- [x] ~~Exportação de relatórios~~ — implementado como consultas no terminal (menu "Consultas Frequentes")
+- [ ] Exportar os relatórios do menu de consultas para arquivo (CSV/PDF), além de exibir no terminal
 
 ## 📄 Licença
 
