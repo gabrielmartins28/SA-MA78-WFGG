@@ -82,19 +82,12 @@ Cada módulo é responsável apenas pelo acesso ao banco (inserir, listar, atual
    cd seu-repositorio
    ```
 
-2. Crie e ative um ambiente virtual (opcional, mas recomendado):
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # Linux/Mac
-   venv\Scripts\activate      # Windows
-   ```
-
-3. Instale as dependências:
+2. Instale as dependências:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. Crie um arquivo `.env` na raiz do projeto com suas credenciais de banco:
+3. Crie um arquivo `.env` na raiz do projeto com suas credenciais de banco:
    ```env
    DB_HOST=seu_host
    DB_USER=seu_usuario
@@ -103,7 +96,7 @@ Cada módulo é responsável apenas pelo acesso ao banco (inserir, listar, atual
    DB_PORT=3306
    ```
 
-5. Rode o script `database.sql` (ou `tables.sql`) no seu MySQL para criar as tabelas.
+4. Rode o script `database.sql` (ou `tables.sql`) no seu MySQL para criar as tabelas.
 
 ## ▶️ Como executar
 
