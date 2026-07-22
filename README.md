@@ -125,7 +125,7 @@ Navegue pelo menu principal digitando o número da opção desejada.
 - [ ] Adicionar busca por ID em todos os módulos
 - [ ] Validações de entrada mais robustas (datas, e-mails, valores)
 - [ ] Testes automatizados
-- [x] ~~Exportação de relatórios~~ — implementado como consultas no terminal (menu "Consultas Frequentes")
+- [ ] Exportação de relatórios — implementado como consultas no terminal (menu "Consultas Frequentes")
 - [ ] Exportar os relatórios do menu de consultas para arquivo (CSV/PDF), além de exibir no terminal
 
 ## 📄 Licença
