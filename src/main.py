@@ -12,61 +12,61 @@ foram corrigidos para usar os nomes de coluna reais do banco (ver histórico
 do projeto) e agora aceitam mais campos do que antes — o menu abaixo já
 reflete essas assinaturas novas.
 """
-from modules.departamento import (
+from departamento import (
     cadastrar_departamento,
     listar_departamentos,
     atualizar_orcamento_departamento,
     deletar_departamento,
 )
-from modules.colaborador import (
+from colaborador import (
     inserir_colaborador,
     listar_colaborador,
     atualizar_colaborador,
     deletar_colaborador,
 )
-from modules.aprovacao import (
+from aprovacao import (
     inserir_aprovacao,
     listar_aprovacao,
     atualizar_aprovacao,
     deletar_aprovacao,
 )
-from modules.carona import (
+from carona import (
     criar_carona,
     listar_carona,
     atualizar_carona,
     deletar_carona,
 )
-from modules.viagem import (
+from viagem import (
     inserir_viagem,
     listar_viagem,
     atualizar_viagem,
     deletar_viagem,
 )
-from modules.despesas import (
+from despesas import (
     criar_despesa,
     listar_despesas,
     atualizar_despesa,
     deletar_despesa,
 )
-from modules.analise_eficacia import (
+from analise_eficacia import (
     cadastrar_analise_eficacia,
     listar_analises_eficacia,
     atualizar_analise_eficacia,
     deletar_analise_eficacia,
 )
-from modules.objetivo_viagem import (
+from objetivo_viagem import (
     cadastrar_objetivo,
     listar_objetivos,
     atualizar_objetivo,
     deletar_objetivo,
 )
-from modules.frota_veiculo import (
+from frota_veiculo import (
     cadastrar_veiculo,
     listar_veiculos,
     atualizar_status_veiculo,
     deletar_veiculo,
 )
-from utils.consultas import (
+from consultas import (
     CATEGORIAS,
     consulta_subordinados_por_gestor,
 )
