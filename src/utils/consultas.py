@@ -1,4 +1,4 @@
-from database import conectar
+from src.database import conectar
 
 
 # ==============================================================================
