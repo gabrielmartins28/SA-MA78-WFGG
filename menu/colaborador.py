@@ -25,20 +25,21 @@ def listar_colaborador():
     cursor = conexao.cursor()
 
     sql = """
-    SELECT id_colaborador, nome_colaborador, cargo_funcionario, email_colaborador, status_funcionario, possui_cnh, id_departamento
+    SELECT id_colaborador, nome_colaborador, cargo_funcionario, email_colaborador, status_funcionario, possui_cnh, id_departamento, id_gestor
     FROM colaborador
     """
     cursor.execute(sql)
     dados = cursor.fetchall()
 
-    print(f"\n{'ID':<5} | {'NOME':<25} | {'CARGO':<20} | {'E-MAIL':<28} | {'STATUS':<10} | {'CNH':<4} | {'DEPTO':<6}")
-    print("-" * 105)
+    print(f"\n{'ID':<5} | {'NOME':<25} | {'CARGO':<20} | {'E-MAIL':<28} | {'STATUS':<10} | {'CNH':<4} | {'DEPTO':<6} | {'GESTOR':<6}")
+    print("-" * 130)
     for colaborador in dados:
-        id_colaborador, nome, cargo, email, status, possui_cnh, id_departamento = colaborador
+        id_colaborador, nome, cargo, email, status, possui_cnh, id_departamento, id_gestor = colaborador
         nome_resumido = (nome[:22] + '...') if nome and len(nome) > 22 else (nome or '')
         cargo_resumido = (cargo[:17] + '...') if cargo and len(cargo) > 17 else (cargo or '')
         cnh_str = 'Sim' if possui_cnh else 'Não'
-        print(f"{id_colaborador:<5} | {nome_resumido:<25} | {cargo_resumido:<20} | {email:<28} | {status:<10} | {cnh_str:<4} | {id_departamento:<6}")
+        gestor_str = str(id_gestor) if id_gestor is not None else '-'   # 👈 a correção
+        print(f"{id_colaborador:<5} | {nome_resumido:<25} | {cargo_resumido:<20} | {email:<28} | {status:<10} | {cnh_str:<4} | {id_departamento:<6} | {gestor_str:<6}")
 
     print(f"\nTotal de colaboradores: {len(dados)}")
 
@@ -84,7 +85,7 @@ def buscar_colaborador(id_colaborador):
     cursor = conexao.cursor()
 
     sql = """
-    SELECT id_colaborador, nome_colaborador, cargo_funcionario, email_colaborador, status_funcionario, possui_cnh, id_departamento
+    SELECT id_colaborador, nome_colaborador, cargo_funcionario, email_colaborador, status_funcionario, possui_cnh, id_departamento, id_gestor
     FROM colaborador
     WHERE id_colaborador = %s
     """
@@ -92,9 +93,9 @@ def buscar_colaborador(id_colaborador):
     colaborador = cursor.fetchone()
 
     if colaborador:
-        id_colab, nome, cargo, email, status, possui_cnh, id_departamento = colaborador
+        id_colab, nome, cargo, email, status, possui_cnh, id_departamento, id_gestor = colaborador
         cnh_str = 'Sim' if possui_cnh else 'Não'
-        print(f"\nID: {id_colab}\nNome: {nome}\nCargo: {cargo}\nE-mail: {email}\nStatus: {status}\nPossui CNH: {cnh_str}\nDepartamento ID: {id_departamento}")
+        print(f"\nID: {id_colab}\nNome: {nome}\nCargo: {cargo}\nE-mail: {email}\nStatus: {status}\nPossui CNH: {cnh_str}\nDepartamento ID: {id_departamento}\nID do Gestor: {id_gestor}")
     else:
         print(f"\n❌ Colaborador com ID {id_colaborador} não encontrado.")
 
